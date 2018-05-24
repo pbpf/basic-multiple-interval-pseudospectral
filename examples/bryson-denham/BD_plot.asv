@@ -180,22 +180,26 @@ function BD_plot(t,X,U,f,p)
         
         % go through each figure and save
         for i = 1:2
-            fg=figure(i);
+            figure(i)
             
             % save a png version
             pathpng = mfoldername(mfilename('fullpath'),fullfile('saved','png'));
             filename = [pathpng,prefixname,fignames{i}];
-%             str = ['saveas ''',filename,''' -png -m4'];
-%             eval(str)
-         saveas(fg,filename,'pdf');
+            str = ['export_fig ''',filename,''' -png -m4'];
+            eval(str)
 
             % save a pdf version
             pathpdf = mfoldername(mfilename('fullpath'),fullfile('saved','pdf'));
             filename = [pathpdf,prefixname,fignames{i}];
-           % str = ['saveas ''',filename,''' -pdf'];
-           % eval(str)
-           saveas(fg,filename,'pdf');
+            str = ['export_fig ''',filename,''' -pdf'];
+            eval(str)
+        
         end
     end
 end
 
+function ph=msavename(file,tag)
+ph=[file,'.',tag];
+end
+
+function ph=mfoldername(file,tag)

@@ -1,34 +1,19 @@
-%--------------------------------------------------------------------------
+%% 计算 Lagrange-Gauss-Lobatto节点 对应的一阶微分矩阵
 % LGL_Dmatrix.m
-% determines approximate differentiation matrix for Legendre-based method
-% with LGL nodes
 %--------------------------------------------------------------------------
 % D = LGL_Dmatrix(tau)
 % tau: LGL nodes
 %   D: differentiation matrix
 %--------------------------------------------------------------------------
-% Primary Contributor: Daniel R. Herber, Graduate Student, University of 
-% Illinois at Urbana-Champaign
-% Link: https://github.com/danielrherber/basic-multiple-interval-pseudospectral
-%--------------------------------------------------------------------------
 function D = LGL_Dmatrix(tau)
     % number of nodes
-    N = length(tau)-1;
-
-    % See Page 110 of the book: J. Shen, T. Tang and L. Wang, Spectral Methods:
-    % Algorithms, Analysis and Applications, Springer Series in Computational
-    % Mathematics, 41, Springer, 2011. 
-    % Uses the function: lepoly()
-    % Original function: D = legslbdiff(n,x) located at
-    % http://www1.spms.ntu.edu.sg/~lilian/bookcodes/legen/legslbdiff.m
-    n = N + 1;
-    if n==0, D = []; return; end;   % null differentiation matrix
-    xx = tau; y = lepoly(n-1,xx);
+    n = length(tau);%%n>=2;
+    N=n-1;
+    xx = tau; y = lepoly(N,xx);
     D = (xx./y)*y'-(1./y)*(xx.*y)'; % compute L_{n-1}(x_j) (x_k-x_j)/L_{n-1}(x_k);     
                                     % 1/d_{kj} for k not= j (see (3.203)) 
-    D = D + eye(n);                 % add the identity matrix so that 1./D can be operated                                     
+    D = D + eye(n);                 % 对角线  +1,便于求倒数                            
     D = 1./D; 
-    D = D - eye(n); 
-    D(1,1) = -n*(n-1)/4; D(n,n) = -D(1,1);  % update the diagonal entries  
-    
+    D = D - eye(n);                 %对角线恢复  0
+    D(1,1) = -N*(N+1)/4; D(n,n) = -D(1,1);  % update the diagonal entries  
 end

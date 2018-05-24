@@ -158,19 +158,20 @@ function ML_plot(t,X,U,f,p)
         
         % go through each figure and save
         for i = 1:2
-            figure(i)
+            fg=figure(i)
             
             % save a png version
             pathpng = mfoldername(mfilename('fullpath'),fullfile('saved','png'));
             filename = [pathpng,prefixname,fignames{i}];
-            str = ['export_fig ''',filename,''' -png -m4'];
-            eval(str)
-
+%            str = ['export_fig ''',filename,''' -png -m4'];
+%             eval(str)
+saveas(fg,filename,'pdf');
             % save a pdf version
             pathpdf = mfoldername(mfilename('fullpath'),fullfile('saved','pdf'));
             filename = [pathpdf,prefixname,fignames{i}];
-            str = ['export_fig ''',filename,''' -pdf'];
-            eval(str)
+             saveas(fg,filename,'pdf');
+%            str = ['export_fig ''',filename,''' -pdf'];
+%            eval(str)
         
         end
     end
